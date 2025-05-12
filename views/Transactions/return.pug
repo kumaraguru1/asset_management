@@ -1,0 +1,45 @@
+extends ../layout
+
+block content
+  .container.mt-4
+    h2 Return Issued Assets
+
+    if transactions.length
+      table.table.table-striped
+        thead
+          tr
+            th Asset
+            th Employee
+            th Issued On
+            th Actions
+        tbody
+          each txn in transactions
+            tr
+              td #{txn.Asset.name}
+              td #{txn.Employee.name}
+              td #{txn.issueDate}  // Adjusted to show date correctly
+              td
+                button.btn.btn-sm.btn-warning(type="button", data-bs-toggle="modal", data-bs-target=`#returnModal-${txn.id}`) Return
+
+      //- Modals for each return
+      each txn in transactions
+        .modal.fade(id=`returnModal-${txn.id}`, tabindex="-1", aria-labelledby=`returnModalLabel-${txn.id}`, aria-hidden="true")
+          .modal-dialog
+            .modal-content
+              .modal-header
+                h5.modal-title(id=`returnModalLabel-${txn.id}`) Return Asset - #{txn.Asset.name}
+                button.btn-close(type="button", data-bs-dismiss="modal", aria-label="Close")
+              form(action="/transactions/return", method="POST")
+                .modal-body
+                  input(type="hidden", name="transactionId", value=txn.id)
+                  .mb-3
+                    label.form-label(for="returnDate") Return Date
+                    input.form-control(type="date", name="returnDate", required)
+                  .mb-3
+                    label.form-label(for="reason") Reason
+                    textarea.form-control(name="reason", required)
+                .modal-footer
+                  button.btn.btn-secondary(type="button", data-bs-dismiss="modal") Cancel
+                  button.btn.btn-primary(type="submit") Confirm Return
+    else
+      p.text-muted No issued assets found.

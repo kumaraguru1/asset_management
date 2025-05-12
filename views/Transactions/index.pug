@@ -1,0 +1,27 @@
+extends ../layout
+
+block content
+  h2 All Transactions
+  
+  table.table.table-bordered.table-hover.mt-4
+    thead
+      tr
+        th # 
+        th Employee
+        th Asset
+        th Type
+        th Date
+        th Reason
+        th Action
+    tbody
+      each txn, index in transactions
+        tr
+          td #{index + 1}
+          td #{txn.Employee ? txn.Employee.name : 'N/A'}
+          td #{txn.Asset ? txn.Asset.name : 'N/A'}
+          td #{txn.transactionType}
+          td #{txn.issueDate || txn.returnDate || txn.scrapDate}
+          td #{txn.reason || txn.returnReason || txn.scrapReason || ''}
+          td
+            a(href=`/transactions/history/${txn.asset_id}`, class='btn btn-sm btn-info', title='View History')
+              i.fas.fa-eye

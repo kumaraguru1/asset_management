@@ -1,0 +1,87 @@
+extends ../layout
+
+block content
+  h1= formTitle
+
+  form(method="POST", action=formAction)
+    if method && method.toUpperCase() === 'PUT'
+      input(type="hidden", name="_method", value="PUT")
+
+    .form-group
+      label(for="unique_id") Unique ID
+      input.form-control(
+        type="text",
+        name="unique_id",
+        id="unique_id",
+        required,
+        readonly,
+        value=(asset && asset.unique_id ? asset.unique_id : 'ASSET-' + Date.now())
+      )
+
+    .form-group
+      label(for="serial_number") Serial Number
+      input.form-control(
+        type="text",
+        name="serial_number",
+        id="serial_number",
+        required,
+        value=(asset && asset.serial_number ? asset.serial_number : '')
+      )
+
+    .form-group
+      label(for="make") Make
+      input.form-control(
+        type="text",
+        name="make",
+        id="make",
+        value=(asset && asset.make ? asset.make : '')
+      )
+
+    .form-group
+      label(for="model") Model
+      input.form-control(
+        type="text",
+        name="model",
+        id="model",
+        value=(asset && asset.model ? asset.model : '')
+      )
+
+    .form-group
+      label(for="purchase_date") Purchase Date
+      input.form-control(
+        type="date",
+        name="purchase_date",
+        id="purchase_date",
+        value=(asset && asset.purchase_date ? asset.purchase_date : '')
+      )
+
+    .form-group
+      label(for="description") Description
+      textarea.form-control(name="description", id="description")= asset && asset.description ? asset.description : ''
+
+    .form-group
+      label(for="isActive") Active?
+      select.form-control(name="isActive", id="isActive")
+        option(value="1", selected=(asset && (asset.isActive === true || asset.isActive === 1))) Yes
+        option(value="0", selected=(asset && (asset.isActive === false || asset.isActive === 0))) No
+
+    .form-group
+      label(for="status") Status
+      select.form-control(name="status", id="status")
+        option(value="available", selected=(asset && asset.status === 'available')) Available
+        option(value="in_use", selected=(asset && asset.status === 'in_use')) In Use
+        option(value="maintenance", selected=(asset && asset.status === 'maintenance')) Maintenance
+        option(value="retired", selected=(asset && asset.status === 'retired')) Retired
+
+    .form-group
+      label(for="category_id") Category
+      select.form-control(name="category_id", id="category_id", required)
+        option(value="") -- Select Category --
+        each cat in categories
+          option(
+            value=cat.id,
+            selected=(asset && asset.category_id == cat.id)
+          )= cat.name
+
+    button.btn.btn-success(type="submit") Save
+    a.btn.btn-secondary(href="/assets") Cancel

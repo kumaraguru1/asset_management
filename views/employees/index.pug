@@ -1,0 +1,27 @@
+extends ../layout
+
+block content
+  h1 Employee List
+  a.btn.btn-primary(href="/employees/new") Add New Employee
+  table.table.table-striped
+    thead
+      tr
+        th ID
+        th Name
+        th Email
+        th Branch
+        th Status
+        th Actions
+    tbody
+      each employee in employees
+        tr
+          td= employee.id
+          td= employee.name
+          td= employee.email
+          td= employee.branch || '—'
+          td= employee.isActive ? 'Active' : 'Inactive'
+          td
+            a.btn.btn-sm.btn-info(href='/employees/' + employee.id + '/edit') Edit
+            a.btn.btn-sm.btn-danger(href='/employees/' + employee.id + '/delete') Delete
+
+

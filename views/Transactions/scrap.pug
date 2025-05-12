@@ -1,0 +1,22 @@
+extends ../layout
+
+block content
+  h1 Scrap Asset
+
+  form(method="POST", action="/transactions/scrap")
+    .form-group
+      label(for="asset_id") Select Asset to Scrap
+      select.form-control(name="asset_id", id="asset_id", required)
+        option(value="") -- Select Asset --
+        each asset in assets
+          option(value=asset.id)= asset.description
+
+    .form-group
+      label(for="scrapDate") Scrap Date
+      input.form-control(type="date", name="scrapDate", id="scrapDate", required)
+
+    .form-group
+      label(for="reason") Reason for Scrapping
+      textarea.form-control(name="reason", id="reason", required)
+
+    button.btn.btn-danger(type="submit") Scrap Asset

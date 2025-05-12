@@ -1,0 +1,25 @@
+extends ../layout
+
+block content
+  h1= formTitle
+  form(method="POST", action=formAction)
+    .form-group
+      label(for="name") Name
+      input.form-control(type="text", name="name", id="name", required, value=(employee && employee.name) || '')
+
+    .form-group
+      label(for="email") Email
+      input.form-control(type="email", name="email", id="email", required, value=(employee && employee.email) || '')
+
+    .form-group
+      label(for="branch") Branch
+      input.form-control(type="text", name="branch", id="branch", required, value=(employee && employee.branch) || '')
+
+    .form-group
+      label(for="status") Status
+      select.form-control(name="isActive", id="isActive")
+        option(value="1", selected=(employee && employee.isActive == 1)) Active
+        option(value="0", selected=(employee && employee.isActive == 0)) Inactive
+
+    button.btn.btn-success(type="submit") Save
+

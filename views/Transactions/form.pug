@@ -1,0 +1,58 @@
+extends ../layout
+
+block content
+  h1= formTitle
+
+  form(method="POST", action=formAction)
+    if method && method.toUpperCase() === 'PUT'
+      input(type="hidden", name="_method", value="PUT")
+
+    .form-group
+      label(for="asset_id") Select Asset
+      select.form-control(name="asset_id", id="asset_id", required)
+        option(value="") -- Select Asset --
+        each asset in assets
+          option(
+            value=asset.id,
+            selected=(transaction && transaction.asset_id == asset.id)
+          )= asset.unique_id
+
+    .form-group
+      label(for="purpose") Purpose
+      textarea.form-control(name="purpose", id="purpose", required)= transaction && transaction.purpose ? transaction.purpose : ''
+
+    .form-group
+      label(for="issue_quantity") Issue Quantity
+      input.form-control(
+        type="number",
+        name="issue_quantity",
+        id="issue_quantity",
+        min="1",
+        required,
+        value=(transaction && transaction.issue_quantity ? transaction.issue_quantity : '')
+      )
+
+    .form-group
+      label(for="issue_value") Issue Value
+      input.form-control(
+        type="number",
+        name="issue_value",
+        id="issue_value",
+        step="0.01",
+        min="0",
+        required,
+        value=(transaction && transaction.issue_value ? transaction.issue_value : '')
+      )
+
+    .form-group
+      label(for="transaction_date") Transaction Date
+      input.form-control(
+        type="date",
+        name="transaction_date",
+        id="transaction_date",
+        required,
+        value=(transaction && transaction.transaction_date ? transaction.transaction_date.toISOString().substring(0, 10) : '')
+      )
+
+    button.btn.btn-success(type="submit") Save
+    a.btn.btn-secondary(href="/transactions") Cancel

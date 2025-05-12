@@ -1,0 +1,15 @@
+extends ../layout
+
+block content
+  h1= formTitle
+
+  form(method='POST', action=formAction)
+    .form-group
+      label(for='name') Name
+      input.form-control(type='text', name='name', id='name', required, value=(category ? category.name : ''))
+
+    .form-group
+      label(for='description') Description
+      input.form-control(type='text', name='description', id='description', value=(category ? category.description : ''))
+
+    button.btn.btn-success(type='submit') Submit

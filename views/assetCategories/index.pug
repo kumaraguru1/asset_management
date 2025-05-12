@@ -1,0 +1,26 @@
+extends ../layout
+
+block content
+  h1 Asset Categories
+  a.btn.btn-primary(href='/asset-categories/new') Add New Category
+
+  table.table.table-striped
+    thead
+      tr
+        th ID
+        th Name
+        th Description
+        th Actions
+    tbody
+      if assetCategories && assetCategories.length
+        each category in assetCategories
+          tr
+            td= category.id
+            td= category.name
+            td= category.description
+            td
+              a.btn.btn-warning(href='/asset-categories/' + category.id + '/edit') Edit
+              a.btn.btn-sm.btn-danger(href='/asset-categories/' + category.id + '/delete') Delete
+      else
+        tr
+          td(colspan='4') No categories found.

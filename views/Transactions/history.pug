@@ -1,0 +1,33 @@
+extends ../layout
+
+block content
+  h1 Transaction History for #{asset.description} (Asset No: #{asset.serial_number})
+
+  if transactions.length
+    table.table.table-striped.table-bordered.mt-4
+      thead
+        tr
+          th #
+          th Employee Name
+          th Transaction Type
+          th Purpose
+          th Transaction Date
+      tbody
+        each txn, index in transactions
+          tr
+            td #{index + 1}
+            td= txn.Employee ? txn.Employee.name : 'N/A'
+            td= txn.transactionType
+            td= txn.reason || 'N/A'
+            td
+              if txn.transactionType === 'issue'
+                = txn.issueDate ? txn.issueDate : 'N/A'
+              else if txn.transactionType === 'return'
+                = txn.returnDate ? txn.returnDate : 'N/A'
+              else if txn.transactionType === 'scrap'
+                = txn.scrapDate ? txn.scrapDate : 'N/A'
+              else
+                = 'N/A'
+
+  else
+    p.text-muted.mt-3 No transaction history found for this asset.
